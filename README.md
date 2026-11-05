@@ -27,4 +27,4 @@ Optional: `GITHUB_TOKEN` (or a logged-in `gh` CLI) raises GitHub rate limits. Ov
 Stack: Python FastAPI + one static HTML page (server-sent events for streaming). Files: `app.py`, `index.html`.
 
 ## Example
-See [`examples/`](examples/) for sample output (if present).
+See [`examples/requests.md`](examples/requests.md) for a real run against `psf/requests` (agent log with tool calls, ranked issues, fix plans).
