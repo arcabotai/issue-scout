@@ -1,6 +1,6 @@
 # 🔭 Issue Scout
 
-**Live demo:** https://issue-scout.lf-e32.workers.dev (Cloudflare Worker)
+**Live demo:** https://issuescout.arca.computer (Cloudflare Worker)
 
 
 > **Everything in this repository was built during the Meta Global AI Developer Hackathon on Nov 4, 2026.**
