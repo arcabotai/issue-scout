@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Issue Scout</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{font-family:system-ui,sans-serif;background:#0f1117;color:#e6e6e6;max-width:900px;margin:0 auto;padding:24px}
+h1{margin:0}.sub{color:#8b93a7;margin-bottom:20px}
+form{display:flex;gap:8px}input{flex:1;padding:12px;border-radius:8px;border:1px solid #2a2f3d;background:#171a23;color:#fff;font-size:16px}
+button{padding:12px 20px;border:0;border-radius:8px;background:#0866ff;color:#fff;font-size:16px;cursor:pointer}button:disabled{opacity:.5}
+#log{background:#171a23;border-radius:8px;padding:12px;margin:16px 0;font:13px ui-monospace,monospace;max-height:200px;overflow:auto;white-space:pre-wrap}
+.card{background:#171a23;border:1px solid #2a2f3d;border-radius:10px;padding:14px;margin:12px 0}
+.row{display:flex;gap:10px;align-items:center;margin:6px 0}.score{min-width:36px;text-align:center;border-radius:6px;padding:2px 6px;font-weight:700}
+a{color:#6ea8ff}.reason{color:#9aa3b8;font-size:14px}h2{margin-top:28px}
+pre.plan{white-space:pre-wrap;font-family:inherit;line-height:1.5}.err{color:#ff7b7b}
+</style></head><body>
+<h1>🔭 Issue Scout</h1><div class="sub">Find the best good-first-issues in any repo, and get a fix plan — an agent powered by Meta Muse Spark.</div>
+<form id="f"><input id="repo" value="psf/requests" placeholder="owner/name"><button id="go">Scout</button></form>
+<div id="log"></div><div id="out"></div>
+<script>
+const $=id=>document.getElementById(id);const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const col=s=>s>=8?'#1f7a3d':s>=5?'#8a6d12':'#7a2a2a';
+$('f').onsubmit=async e=>{e.preventDefault();$('go').disabled=true;$('log').textContent='';$('out').innerHTML='<h2>Ranked issues</h2><div id="scores"></div><h2>Top picks: fix plans</h2><div id="plans"></div>';
+const log=m=>{$('log').textContent+=m+'\n';$('log').scrollTop=1e9};
+const r=await fetch('/api/scout?repo='+encodeURIComponent($('repo').value));const rd=r.body.getReader();const dec=new TextDecoder();let buf='';
+while(true){const{value,done}=await rd.read();if(done)break;buf+=dec.decode(value,{stream:true});let i;
+while((i=buf.indexOf('\n\n'))>=0){const line=buf.slice(0,i);buf=buf.slice(i+2);if(!line.startsWith('data: '))continue;const d=JSON.parse(line.slice(6));
+if(d.type=='log')log(d.message);
+if(d.type=='error'){log('ERROR: '+d.message);$('out').insertAdjacentHTML('afterbegin','<div class="err">'+esc(d.message)+'</div>')}
+if(d.type=='scores')$('scores').innerHTML=d.scores.map(s=>`<div class="card"><div class="row"><span class="score" style="background:${col(s.score)}">${s.score}</span><a href="${s.url}" target="_blank">#${s.number} ${esc(s.title)}</a></div><div class="reason">${esc(s.reason||'')}</div></div>`).join('');
+if(d.type=='plan')$('plans').insertAdjacentHTML('beforeend',`<div class="card"><b><a href="${d.url}" target="_blank">#${d.number} ${esc(d.title)}</a></b><pre class="plan">${esc(d.plan)}</pre></div>`);
+}}
+$('go').disabled=false};
+</script></body></html>
