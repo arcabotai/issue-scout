@@ -1,6 +1,6 @@
 import { INDEX_HTML } from "./html";
 
-interface Env { META_API_KEY: string; GITHUB_TOKEN?: string; META_BASE_URL?: string; META_MODEL?: string; }
+interface Env { META_API_KEY: string; GITHUB_TOKEN?: string; META_BASE_URL?: string; META_MODEL?: string; SCOUT_ENABLED?: string; }
 const MAX_ISSUES = 20;
 
 const TOOLS = [
@@ -154,6 +154,10 @@ export default {
       const emit = async (type: string, data: any = {}) => { await writer.write(enc.encode(`data: ${JSON.stringify({ type, ...data })}\n\n`)); };
       let repo = (url.searchParams.get("repo") || "").trim().replace(/^https:\/\/github\.com\//, "").replace(/^\/+|\/+$/g, "");
       const headers = { "content-type": "text/event-stream", "cache-control": "no-cache", "x-accel-buffering": "no" };
+      if (env.SCOUT_ENABLED !== "true") {
+        ctx.waitUntil((async () => { await emit("error", { message: "Live scouting is paused after the hackathon. See github.com/arcabotai/issue-scout to run it yourself." }); await writer.close(); })());
+        return new Response(readable, { headers });
+      }
       if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) {
         ctx.waitUntil((async () => { await emit("error", { message: "Use owner/name format." }); await writer.close(); })());
         return new Response(readable, { headers });
