@@ -1,5 +1,8 @@
 # 🔭 Issue Scout
 
+**Live demo:** https://issue-scout.lf-e32.workers.dev (Cloudflare Worker)
+
+
 > **Everything in this repository was built during the Meta Global AI Developer Hackathon on Nov 4, 2026.**
 
 **Problem statement:** *Build for Your World.* Open-source maintainers and first-time contributors both lose hours to issue triage: which of 300 open issues is actually doable for a newcomer, and where do I even start? Issue Scout is the tool I wished I had when making my first contribution.
@@ -28,3 +31,6 @@ Stack: Python FastAPI + one static HTML page (server-sent events for streaming).
 
 ## Example
 See [`examples/requests.md`](examples/requests.md) for a real run against `psf/requests` (agent log with tool calls, ranked issues, fix plans).
+
+## Deploy on Cloudflare Workers
+A TypeScript port of the backend lives in [`worker/`](worker/) (SSE via `TransformStream`, same Meta Model API tool loop). `cd worker && npx wrangler deploy`, then `wrangler secret put META_API_KEY` and `GITHUB_TOKEN`. The Python/FastAPI version is kept for local use.

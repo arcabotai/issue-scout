@@ -4,6 +4,7 @@
 **Tagline:** An AI agent that finds the best first issues in any GitHub repo and writes the fix plan for you.
 **Track / problem statement:** Build for Your World
 **Repo:** https://github.com/arcabotai/issue-scout
+**Live demo:** https://issue-scout.lf-e32.workers.dev (Cloudflare Worker, `worker/`)
 **Built:** entirely during the hackathon, Nov 4, 2026.
 
 ## Description (~150 words)
