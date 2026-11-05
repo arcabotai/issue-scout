@@ -5,7 +5,7 @@ from fastapi import FastAPI, Query
 from fastapi.responses import FileResponse, StreamingResponse
 
 META_BASE = os.environ.get("META_BASE_URL", "https://api.meta.ai/v1")
-MODEL = os.environ.get("META_MODEL", "muse-spark-1.3")
+MODEL = os.environ.get("META_MODEL", "muse-spark-1.3-contributor")
 MAX_ISSUES = 20
 app = FastAPI()
 

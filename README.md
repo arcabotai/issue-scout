@@ -17,7 +17,7 @@ Enter a GitHub repo (`owner/name`). An agent powered by Meta's **Muse Spark** mo
 The UI streams an agent progress log (including every tool call) and renders ranked issues and plans.
 
 ## Meta models / APIs used
-- **Muse Spark 1.3** (`muse-spark-1.3`) via **Meta Model API** — `POST https://api.meta.ai/v1/chat/completions` (OpenAI-compatible Chat Completions, `Authorization: Bearer $META_API_KEY`).
+- **Muse Spark 1.3** (`muse-spark-1.3-contributor`) via **Meta Model API** — `POST https://api.meta.ai/v1/chat/completions` (OpenAI-compatible Chat Completions, `Authorization: Bearer $META_API_KEY`).
 - Used for (a) structured JSON scoring/ranking of issues and (b) multi-step **function/tool calling** for the plan-writing agent. Small `max_tokens` and low reasoning effort keep cost low.
 
 ## Run it

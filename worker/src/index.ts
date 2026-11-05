@@ -26,7 +26,7 @@ function b64decode(s: string): string {
 }
 
 async function chat(env: Env, messages: any[], tools: any[] | null = null, maxTokens = 2500): Promise<any> {
-  const model = env.META_MODEL || "muse-spark-1.3";
+  const model = env.META_MODEL || "muse-spark-1.3-contributor";
   const base = env.META_BASE_URL || "https://api.meta.ai/v1";
   const body: any = { model, messages, max_tokens: maxTokens, reasoning_effort: "low" };
   if (tools) body.tools = tools;
@@ -89,7 +89,7 @@ async function scout(env: Env, repo: string, emit: (type: string, data?: any) =>
   const log = (message: string) => emit("log", { message });
   if (!env.META_API_KEY) { await emit("error", { message: "META_API_KEY is not set on the server." }); return; }
   try {
-    const model = env.META_MODEL || "muse-spark-1.3";
+    const model = env.META_MODEL || "muse-spark-1.3-contributor";
     await log(`Step 1/4: fetching open issues for ${repo} from the GitHub API…`);
     const raw: any[] = await gh(env, `/repos/${repo}/issues`, { state: "open", per_page: 50, sort: "updated" });
     const issues = raw.filter((i) => !("pull_request" in i)).slice(0, MAX_ISSUES);

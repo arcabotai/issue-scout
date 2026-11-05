@@ -11,7 +11,7 @@
 Contributing to open source starts with a hard question: which of hundreds of open issues can a newcomer actually fix? Issue Scout answers it. Enter any `owner/name` GitHub repo and an agent built on Meta's Muse Spark fetches the open issues, scores each one 0–10 for newcomer-friendliness with a short reason, and picks the top three. Then it goes further than a single prompt: for each pick, the model decides to call tools: it browses the repository file tree, reads the README, and opens source files through the GitHub API, before writing a concrete plan with the files likely involved, step-by-step approach, and tests to add. A streaming progress log shows every agent step and tool call in a clean single-page UI. It helps new contributors get unstuck and helps maintainers grow their contributor base. It runs locally with one command (`./run.sh`).
 
 ## How Meta models are used
-- **Muse Spark 1.3 (`muse-spark-1.3`)** through the Meta Model API Chat Completions endpoint (`https://api.meta.ai/v1/chat/completions`).
+- **Muse Spark 1.3 (`muse-spark-1.3-contributor`)** through the Meta Model API Chat Completions endpoint (`https://api.meta.ai/v1/chat/completions`).
 - Step 1: structured-JSON reasoning over a batch of issues to score and rank them.
 - Step 2: multi-turn **tool calling** (`get_repo_tree`, `get_readme`, `read_file`): the model chooses which repo context to fetch, then synthesizes grounded fix plans. This is the agentic loop.
 
